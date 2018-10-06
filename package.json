@@ -1,0 +1,23 @@
+{
+  "name": "hubble",
+  "version": "1.0.0",
+  "description": "A Connext Hub on OrbitDB",
+  "main": "src/HubStore.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knxt/hubble.git"
+  },
+  "author": "@ghiliweld",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/knxt/hubble/issues"
+  },
+  "homepage": "https://github.com/knxt/hubble#readme",
+  "dependencies": {
+    "eth-crypto": "^1.2.4",
+    "orbit-db-store": "^2.5.3"
+  }
+}
