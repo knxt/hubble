@@ -7,8 +7,6 @@ class HubStore extends KeyValueStore {
       super(ipfs, id, dbname, options);
       this.type = HubStore.type;
 
-      // TODO: tweak hubUrl to accept an orbitdb address
-
       // A keypair is generated for our cosigner
       const _keypair = EthCrypto.createIdentity();
 
@@ -25,15 +23,15 @@ class HubStore extends KeyValueStore {
       this.signTx = function(rawtx) {
         EthCrypto.signTransaction(rawtx, _keypair.privateKey);
       }
-      
+
     }
 
     deposit (tx) {
       if (tx.to != this.address()) throw new Error('Tx was not sent to this Hub.');
-      super.put(tx.from, {balance: depositBalance(tx.from, tx.value)});
+      super.put(tx.from, addBalance(tx.from, tx.value));
     }
 
-    transfers (check, sig) {
+    transfer (check, sig) {
       if (check.to == this.address()) throw new Error('You cannot open a thread with the Hub.');
       if (check.from != recover(check, sig)) throw new Error();
       if (check.value <= super.get(check.from)) throw new Error();
@@ -43,10 +41,10 @@ class HubStore extends KeyValueStore {
       const value = check.value;
 
       await super.get(from).
-      then(balance => super.put(from, balance - value));
+      then(balance => super.put(from, subBalance(from, value)));
 
       await super.get(to).
-      then(balance => super.put(to, balance + value));
+      then(balance => super.put(to, addBalance(to, value)));
 
 
       // add nonce
@@ -71,7 +69,12 @@ class HubStore extends KeyValueStore {
       return this.signTx(rawtx);
     }
 
-    depositBalance(from, value) {
+    addBalance(from, value) {
+      const balance = await super.get(from);
+      return balance + value;
+    }
+
+    subBalance(from, value) {
       const balance = await super.get(from);
       return balance - value;
     }
@@ -84,17 +87,6 @@ class HubStore extends KeyValueStore {
     // dw bout it
     set () {
       throw new Error();
-    }
-
-    /**
-    * Returns a new channel id that is a random hex string.
-    *
-    * @returns {String} a random 32 byte channel ID.
-    */
-    static getNewChannelId () {
-      const buf = crypto.randomBytes(32)
-      const channelId = Web3.utils.bytesToHex(buf)
-      return channelId
     }
 
     static get type () {
