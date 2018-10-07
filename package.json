@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/knxt/hubble#readme",
   "dependencies": {
+    "bulma": "^0.7.1",
     "eth-crypto": "^1.2.4",
-    "orbit-db-store": "^2.5.3"
+    "orbit-db-kvstore": "^1.4.0",
+    "orbit-db-store": "^2.5.3",
+    "web3": "^1.0.0-beta.36"
   }
 }
