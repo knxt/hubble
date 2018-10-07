@@ -1,5 +1,5 @@
 {
-  "name": "hubble",
+  "name": "ethhubble",
   "version": "1.0.0",
   "description": "A Connext Hub on OrbitDB",
   "main": "src/HubStore.js",

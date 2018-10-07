@@ -10,9 +10,6 @@ class HubStore extends KeyValueStore {
       // A keypair is generated for our cosigner
       const _keypair = EthCrypto.createIdentity();
 
-      // a global nonce
-      const nonce = 0;
-
       // We create a getter to allow access to our cosigner's address
       this.address = function() { return _keypair.address; }
 
@@ -93,3 +90,5 @@ class HubStore extends KeyValueStore {
       return 'hubstore';
     }
 }
+
+module.exports = HubStore;
